@@ -40,20 +40,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 
-/**
- * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
- * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
- * of the FTC Driver Station. When an selection is made from the menu, the corresponding OpMode
- * class is instantiated on the Robot Controller and executed.
- *
- * This particular OpMode just executes a basic Tank Drive Teleop for a two wheeled robot
- * It includes all the skeletal structure that all linear OpModes contain.
- *
- * Use Android Studios to Copy this Class, and Paste it into your team's code folder with a new name.
- * Remove or comment out the @Disabled line to add this opmode to the Driver Station OpMode list
- */
-
-@Autonomous(name="Basic OpMode Test", group="Linear Opmode")
+@Autonomous(name="Basic: Linear OpMode", group="Linear Opmode")
 @Disabled
 public class BasicOpModeTest extends LinearOpMode {
 
@@ -64,7 +51,6 @@ public class BasicOpModeTest extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-
         DcMotor frontLeft =hardwareMap.dcMotor.get("front_left_motor");
         DcMotor frontRight =hardwareMap.dcMotor.get("front_right_motor");
         DcMotor backLeft =hardwareMap.dcMotor.get("back_left_motor");
@@ -80,25 +66,28 @@ public class BasicOpModeTest extends LinearOpMode {
         backLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         backRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        backRight.setDirection(DcMotor.Direction.REVERSE);
-        frontRight.setDirection(DcMotor.Direction.REVERSE);
-
         DistanceSensor frontDistance = hardwareMap.get(DistanceSensor.class, "front_distance");
         DistanceSensor backDistance = hardwareMap.get(DistanceSensor.class, "back_distance");
         DistanceSensor leftDistance = hardwareMap.get(DistanceSensor.class, "left_distance");
         DistanceSensor rightDistance = hardwareMap.get(DistanceSensor.class, "right_distance");
 
-        frontLeft.setPower(-1);
-        frontRight.setPower(-1);
-        backLeft.setPower(-1);
-        backRight.setPower(-1);
+        backRight.setDirection(DcMotor.Direction.REVERSE);
+        frontRight.setDirection(DcMotor.Direction.REVERSE);
 
-        telemetry.addData("Front Distance", " %.1f", frontDistance.getDistance(DistanceUnit.CM));
-        telemetry.addData("Left Distance", " %.1f", leftDistance.getDistance(DistanceUnit.CM));
-        telemetry.addData("Right Distance", " %.1f", rightDistance.getDistance(DistanceUnit.CM));
-        telemetry.addData("Back Distance", " %.1f", backDistance.getDistance(DistanceUnit.CM));
-        telemetry.addData("Encoders"," %d %d %d %d", backLeft.getCurrentPosition(), frontLeft.getCurrentPosition(),
-                frontRight.getCurrentPosition(), backRight.getCurrentPosition());
-        telemetry.update();
+        waitForStart();
+        while (opModeIsActive()) {
+
+            frontLeft.setPower(-1);
+            frontRight.setPower(-1);
+            backLeft.setPower(-1);
+            backRight.setPower(-1);
+
+            telemetry.addData("Front Distance", " %.1f", frontDistance.getDistance(DistanceUnit.CM));
+            telemetry.addData("Left Distance", " %.1f", leftDistance.getDistance(DistanceUnit.CM));
+            telemetry.addData("Right Distance", " %.1f", rightDistance.getDistance(DistanceUnit.CM));
+            telemetry.addData("Back Distance", " %.1f", backDistance.getDistance(DistanceUnit.CM));
+            telemetry.update();
+
         }
     }
+}
